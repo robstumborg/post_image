@@ -33,12 +33,11 @@ browser.contextMenus.create({
 });
 
 function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   var charactersLength = characters.length;
   for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * 
-      charactersLength));
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
 }
@@ -94,7 +93,7 @@ function formatDetect(file, callback) {
     if(e.target.readyState === FileReader.DONE) {
       var bytes = new Uint8Array(e.target.result);
 
-      for(var i=0, l = mimes.length; i<l; ++i) {
+      for(var i = 0, l = mimes.length; i < l; ++i) {
         if(check(bytes, mimes[i])) {
           // return the proper extension for the file
           return callback(mimes[i].extension)
