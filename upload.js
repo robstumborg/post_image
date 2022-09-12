@@ -11,17 +11,17 @@ browser.contextMenus.create({
       });
 
       var fd = new FormData();
-      fd.append("files[]", download.response, filename);
+      fd.append("file", download.response, filename);
       var upload = new XMLHttpRequest();
-      upload.responseType = 'json';
+      upload.responseType = 'text';
 
       upload.onload = function() {
-        url = upload.response.files[0].url;
+        url = upload.response
         browser.tabs.create({url: url});
       }
 
       // upload image
-      upload.open('POST', 'https://uguu.se/upload.php');
+      upload.open('POST', 'http://0x0.st');
       upload.send(fd);
 
     };
