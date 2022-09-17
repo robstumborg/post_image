@@ -12,6 +12,7 @@ browser.contextMenus.create({
 
       var fd = new FormData();
       fd.append("file", download.response, filename);
+      fd.append("url_len", "8");
       var upload = new XMLHttpRequest();
       upload.responseType = 'text';
 
@@ -21,7 +22,7 @@ browser.contextMenus.create({
       }
 
       // upload image
-      upload.open('POST', 'http://0x0.st');
+      upload.open('POST', 'https://filehole.org/');
       upload.send(fd);
 
     };
