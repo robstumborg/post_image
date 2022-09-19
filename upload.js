@@ -1,30 +1,25 @@
 browser.contextMenus.create({
   title: "Upload image [POST]",
   contexts: ["image"],
-  onclick: function(info, tab) {
+  onclick: function(info) {
     var download = new XMLHttpRequest();
     download.onload = function() {
-      var og_filename = info.srcUrl.split(/[\\/]/).pop(); // maybe we'll use this later
-
       formatDetect(download.response, function(extension) {
-        filename = makeid(5) + '.' + extension;
+        var filename = makeid(5) + '.' + extension;
+        var fd = new FormData();
+        fd.append("file", download.response, filename);
+        fd.append("url_len", "5");
+        var upload = new XMLHttpRequest();
+        upload.responseType = 'text';
+        upload.onload = function() {
+          url = upload.response
+          browser.tabs.create({url: url});
+        }
+
+        // upload image
+        upload.open('POST', 'https://filehole.org/');
+        upload.send(fd);
       });
-
-      var fd = new FormData();
-      fd.append("file", download.response, filename);
-      fd.append("url_len", "8");
-      var upload = new XMLHttpRequest();
-      upload.responseType = 'text';
-
-      upload.onload = function() {
-        url = upload.response
-        browser.tabs.create({url: url});
-      }
-
-      // upload image
-      upload.open('POST', 'https://filehole.org/');
-      upload.send(fd);
-
     };
 
     download.responseType = 'blob';
