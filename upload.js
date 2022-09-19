@@ -1,4 +1,4 @@
-browser.contextMenus.create({
+chrome.contextMenus.create({
   title: "Upload image [POST]",
   contexts: ["image"],
   onclick: function(info) {
@@ -13,7 +13,7 @@ browser.contextMenus.create({
         upload.responseType = 'text';
         upload.onload = function() {
           url = upload.response
-          browser.tabs.create({url: url});
+          chrome.tabs.create({url: url});
         }
 
         // upload image

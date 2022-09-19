@@ -5,6 +5,7 @@
   "icons": {
     "200": "icon.png"
   },
+  "description": "This extension allows you to right click an image and upload it to an image sharing website.",
   "permissions" : [
     "contextMenus",
     "tabs",
@@ -18,7 +19,7 @@
     {
       "matches" : ["http://*/*", "https://*/*"],
       "css" : [],
-      "js" : []
+      "js" : ["upload.js"]
     }
   ]
 }
