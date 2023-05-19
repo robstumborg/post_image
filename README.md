@@ -1,13 +1,8 @@
-# POST Image (Firefox extension)
+# POST Image - browser extension
 
-this firefox extension allows you to right click an image and quickly upload i
-to a file sharing service. right now filehole.org is supported, but the idea is to
-allow users to customize the POST request so they can upload images to their
-file sharing service of choice.
+browser extension that allows you to right click an image and quickly upload it
+to a file sharing service right from your browser for quick sharing. it supports
+choosing between [filehole](http://filehole.org) & [uguu](https://uguu.se) as
+the file hosting service.
 
-## todo
-
-- allow users to change url/post parameters
-- checkbox for open new url in browser
-- checkbox for place new url in clipboard
-
+[download & install for Firefox](https://addons.mozilla.org/en-US/firefox/addon/post-image/)
