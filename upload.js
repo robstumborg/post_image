@@ -8,17 +8,17 @@ chrome.contextMenus.create({
       const filename = makeid(5) + "." + extension;
       const fileHost =
         (await browser.storage.sync.get("fileHost")).fileHost || "filehole";
-      const fd = new FormData();
 
+      const formData = new FormData();
       switch (fileHost) {
         case "uguu":
-          fd.append("files[]", download.response, filename);
-          await uploadToUguu(fd, filename);
+          formData.append("files[]", download.response, filename);
+          await uploadToUguu(formData, filename);
           break;
         case "filehole":
-          fd.append("file", download.response, filename);
-          fd.append("url_len", "8");
-          await uploadToFileHole(fd);
+          formData.append("file", download.response, filename);
+          formData.append("url_len", "8");
+          await uploadToFileHole(formData);
           break;
         default:
           break;
@@ -98,30 +98,53 @@ async function detectFileExtension(file) {
   });
 }
 
-async function uploadToUguu(fd, filename) {
+async function uploadToUguu(formData, filename) {
   const upload = new XMLHttpRequest();
   upload.responseType = "json";
-  upload.onload = function () {
-    const url = upload.response.files[0].url;
-    chrome.tabs.create({ url });
+  upload.onload = async function () {
+    await openNewTab(upload.response.files[0].url);
+    await placeUrlInClipboard(upload.response.files[0].url);
   };
 
   // upload image
   upload.open("POST", "https://uguu.se/upload.php");
-  upload.send(fd);
+  upload.send(formData);
 }
 
-async function uploadToFileHole(fd) {
+async function uploadToFileHole(formData) {
   const upload = new XMLHttpRequest();
   upload.responseType = "text";
-  upload.onload = function () {
-    const url = upload.response;
-    chrome.tabs.create({ url });
+  upload.onload = async function () {
+    await openNewTab(upload.response);
+    await placeUrlInClipboard(upload.response);
   };
 
   // upload image
   upload.open("POST", "https://filehole.org/");
-  upload.send(fd);
+  upload.send(formData);
+}
+
+async function openNewTab(url) {
+  const newTab = (await browser.storage.sync.get("newTab")).newTab;
+
+  if (newTab) {
+    chrome.tabs.create({ url });
+    return;
+  }
+}
+
+async function placeUrlInClipboard(url) {
+  // check if clipboardPlace is set to true
+  const clipboardPlace = (await browser.storage.sync.get("clipboardPlace"))
+    .clipboardPlace;
+  if (clipboardPlace) {
+    navigator.clipboard.writeText(url);
+    chrome.notifications.create({
+      type: "basic",
+      title: "POST Image",
+      message: "Copied image URL to clipboard",
+    });
+  }
 }
 
 function makeid(length) {
@@ -132,4 +155,17 @@ function makeid(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+// set default settings for first-time install
+browser.runtime.onInstalled.addListener(handleInstalled);
+
+function handleInstalled(details) {
+  if (details.reason === "install") {
+    browser.storage.sync.set({
+      fileHost: "filehole",
+      newTab: true,
+      clipboardPlace: false,
+    });
+  }
 }

@@ -3,18 +3,23 @@ body {
   background: #fff;
   color: rgb(74, 74, 79);
   font-size: 13px;
-  overflow: hidden;
+  padding: 20px;
 }
 
 h3:first-of-type {
-  margin-block-start: 1rem;
+  margin-top: 0;
 }
 
 input[type="checkbox"] {
-  margin-inline: 0 8px;
-  margin-block: 1px auto;
-  inline-size: 16px;
-  block-size: 16px;
+  margin-right: 8px;
+}
+
+button[type="submit"] {
+  margin-top: 16px;
+}
+
+.spacer {
+  height: 100px;
 }
 
 @media (prefers-color-scheme: dark) {

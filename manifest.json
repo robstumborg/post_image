@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "POST Image",
-  "version": "0.6",
+  "version": "0.7",
   "icons": {
     "200": "icon.png"
   },
@@ -10,6 +10,8 @@
     "contextMenus",
     "tabs",
     "storage",
+    "notifications",
+    "clipboardWrite",
     "http://*/*",
     "https://*/*"
   ],

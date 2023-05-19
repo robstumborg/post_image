@@ -7,30 +7,30 @@
   <body>
     <form>
       <h3>Settings</h3>
-      <div class="setting">
-        <label class="permission">
-          <input id="newTab" type="checkbox" checked disabled/>
-          Open uploaded image in a new tab 
+      <div>
+        <label>
+          <input id="newTab" type="checkbox" />
+          Open uploaded image in a new tab
         </label>
       </div>
-      <div class="setting">
-        <label class="permission">
-          <input id="clipboardPlace" type="checkbox" disabled/>
-          Place uploaded image URL in system clipboard (not implemented)
+      <div>
+        <label>
+          <input id="clipboardPlace" type="checkbox" />
+          Place uploaded image URL in system clipboard
         </label>
       </div>
       <h3>File host</h3>
-      <div class="setting">
-        <label class="permission">
+      <div>
+        <label>
           <select id="fileHost" name="fileHost">
             <option value="filehole">filehole</option>
             <option value="uguu">uguu</option>
           </select>
         </label>
       </div>
-      <button type="submit">apply</button>
+      <button type="submit">Apply</button>
     </form>
     <script src="settings.js"></script>
-    <div style="height: 100px"></div>
+    <div class="spacer"></div>
   </body>
 </html>

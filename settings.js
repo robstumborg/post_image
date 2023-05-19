@@ -1,18 +1,22 @@
 // get saved settings and display them
 browser.storage.sync.get("fileHost").then((settings) => {
-  document.getElementById("fileHost").value = settings.fileHost || "filehole";
+  document.getElementById("fileHost").value = settings.fileHost;
+});
+
+browser.storage.sync.get("newTab").then((settings) => {
+  document.getElementById("newTab").checked = settings.newTab;
+});
+
+browser.storage.sync.get("clipboardPlace").then((settings) => {
+  document.getElementById("clipboardPlace").checked = settings.clipboardPlace;
 });
 
 // save settings upon form submit
 document.querySelector("form").addEventListener("submit", (event) => {
   event.preventDefault();
-  const newFileHost = document.getElementById("fileHost").value;
-  browser.storage.sync
-    .set({ fileHost: newFileHost })
-    .then(() => {
-      console.log(`saved new file host: ${newFileHost}`);
-    })
-    .catch((error) => {
-      console.error(`error saving file host: ${error}`);
-    });
+  browser.storage.sync.set({
+    newTab: document.getElementById("newTab").checked,
+    clipboardPlace: document.getElementById("clipboardPlace").checked,
+    fileHost: document.getElementById("fileHost").value,
+  });
 });
