@@ -1,22 +1,18 @@
-function saveOptions(e) {
-  e.preventDefault();
-  browser.storage.sync.set({
-    fileHost: document.querySelector("#fileHost").value
-  });
-}
+// get saved settings and display them
+browser.storage.sync.get("fileHost").then((settings) => {
+  document.getElementById("fileHost").value = settings.fileHost || "filehole";
+});
 
-function restoreOptions() {
-  function setCurrentChoice(result) {
-    document.querySelector("#fileHost").value = result.fileHost || "filehole";
-  }
-
-  function onError(error) {
-    console.log(`Error: ${error}`);
-  }
-
-  let getting = browser.storage.sync.get("fileHost");
-  getting.then(setCurrentChoice, onError);
-}
-
-document.addEventListener("DOMContentLoaded", restoreOptions);
-document.querySelector("form").addEventListener("submit", saveOptions);
+// save settings upon form submit
+document.querySelector("form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const newFileHost = document.getElementById("fileHost").value;
+  browser.storage.sync
+    .set({ fileHost: newFileHost })
+    .then(() => {
+      console.log(`saved new file host: ${newFileHost}`);
+    })
+    .catch((error) => {
+      console.error(`error saving file host: ${error}`);
+    });
+});
