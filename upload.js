@@ -134,6 +134,10 @@ async function openNewTab(url) {
 }
 
 async function placeUrlInClipboard(url) {
+
+  // trim newline from url
+  url = url.replace(/\n/g, "");
+
   // check if clipboardPlace is set to true
   const clipboardPlace = (await browser.storage.sync.get("clipboardPlace"))
     .clipboardPlace;
