@@ -20,6 +20,10 @@ chrome.contextMenus.create({
           formData.append("url_len", "8");
           await uploadToFileHole(formData);
           break;
+        case "0x0":
+          formData.append("file", download.response, filename);
+          await uploadTo0x0(formData);
+          break;
         default:
           break;
       }
@@ -121,6 +125,19 @@ async function uploadToFileHole(formData) {
 
   // upload image
   upload.open("POST", "https://filehole.org/");
+  upload.send(formData);
+}
+
+async function uploadTo0x0(formData) {
+  const upload = new XMLHttpRequest();
+  upload.responseType = "text";
+  upload.onload = async function () {
+    await openNewTab(upload.response);
+    await placeUrlInClipboard(upload.response);
+  };
+
+  // upload image
+  upload.open("POST", "https://0x0.st/");
   upload.send(formData);
 }
 
