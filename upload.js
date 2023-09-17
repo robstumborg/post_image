@@ -24,6 +24,10 @@ chrome.contextMenus.create({
           formData.append("file", download.response, filename);
           await uploadTo0x0(formData);
           break;
+        case "ircnet":
+          formData.append("file", download.response, filename);
+          await uploadToIrcNet(formData);
+          break;
         default:
           break;
       }
@@ -138,6 +142,19 @@ async function uploadTo0x0(formData) {
 
   // upload image
   upload.open("POST", "https://0x0.st/");
+  upload.send(formData);
+}
+
+async function uploadToIrcNet(formData) {
+  const upload = new XMLHttpRequest();
+  upload.responseType = "text";
+  upload.onload = async function () {
+    await openNewTab(upload.response);
+    await placeUrlInClipboard(upload.response);
+  };
+
+  // upload image
+  upload.open("POST", "https://upload.internetrelaychat.net/upload");
   upload.send(formData);
 }
 
